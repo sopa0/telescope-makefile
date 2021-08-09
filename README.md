@@ -13,6 +13,11 @@ lvim.plugins = {
 }
 ```
 
+And run
+```
+:PackerInstall
+```
+
 ## Usage
 ```lua
 lua require('telescope').extensions.telescope_makefile.telescope_makefile()
