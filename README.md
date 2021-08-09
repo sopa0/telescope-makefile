@@ -7,7 +7,6 @@ Only tested on GNU/Linux.
 For LunarVim, in your config.lua:
 ```lua
 lvim.plugins = {
-  ...,
   {
     "ptethng/telescope-makefile",
   },
