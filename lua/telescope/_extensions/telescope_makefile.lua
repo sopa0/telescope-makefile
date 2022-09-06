@@ -29,7 +29,7 @@ end
 
 local telescope_makefile = function(opts)
 	pickers.new(opts, {
-		prompt_title = "Makefile",
+		prompt_title = "Make",
 		finder = finders.new_table(get_targets()),
 		sorter = conf.generic_sorter({}),
 		attach_mappings = function(prompt_bufnr, _)
@@ -48,6 +48,6 @@ end
 
 return require("telescope").register_extension({
 	exports = {
-		telescope_makefile = telescope_makefile,
+		make = telescope_makefile,
 	},
 })
