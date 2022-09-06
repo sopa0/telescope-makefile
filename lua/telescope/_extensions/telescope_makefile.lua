@@ -32,12 +32,15 @@ local telescope_makefile = function(opts)
 		prompt_title = "Makefile",
 		finder = finders.new_table(get_targets()),
 		sorter = conf.generic_sorter({}),
-		attach_mappings = function(_, map)
-			map("i", "<cr>", function(prompt_bufnr)
+		attach_mappings = function(prompt_bufnr, _)
+            actions.select_default:replace(function ()
+                actions.close(prompt_bufnr)
 				local command = action_state.get_selected_entry()
-				actions.close(prompt_bufnr)
+                if not command then
+                    return
+                end
 				run_target(command)
-			end)
+            end)
 			return true
 		end,
 	}):find()
