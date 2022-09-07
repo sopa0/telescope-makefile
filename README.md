@@ -20,7 +20,7 @@ lvim.plugins = {
 
 ## Usage
 ```lua
-lua require('telescope').extensions.telescope_makefile.telescope_makefile()
+require'telescope'.load_extension('make')
 ```
 
 Example keybinding in LunarVim and which-key:
