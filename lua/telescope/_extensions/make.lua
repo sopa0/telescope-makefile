@@ -9,7 +9,11 @@ local config   = require("telescope-makefile.config")
 local function get_targets()
     local data
     for _, make_dir in ipairs(config.makefile_priority) do
-        local handle = io.popen("make -rpn -C " .. make_dir .. " 2>/dev/null | sed -n -e '/^$/ { n ; /^[^ .#][^ ]*:/ { s/:.*$// ; p ; } ; }' 2>/dev/null")
+        local handle = io.popen("make -pRrq -C ".. make_dir .. [[ : 2>/dev/null |
+                awk -F: '/^# Files/,/^# Finished Make data base/ {
+                    if ($1 == "# Not a target") skip = 1;
+                    if ($1 !~ "^[#.\t]") { if (!skip) {if ($1 !~ "^$")print $1}; skip=0 }
+                }' 2>/dev/null]])
         if not handle then
             break
         end
