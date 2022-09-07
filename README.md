@@ -18,16 +18,27 @@ lvim.plugins = {
 }
 ```
 
-## Usage
+## Installation
 ```lua
 require'telescope'.load_extension('make')
+```
+## Usage
+```vim
+:Telescope make
+```
+## Configuration
+Default:
+```lua
+require'telescope-makefile'.setup{
+  -- The path where to search the makefile in the priority order
+  makefile_priority = { '.', 'build/' }
+}
 ```
 
 Example keybinding in LunarVim and which-key:
 ```lua
 lvim.builtin.which_key.mappings.M = {
-  "<cmd>lua require('telescope').extensions.telescope_makefile.telescope_makefile()<cr>",
-  "Makefile",
+  "<cmd>Telescope make<cr>",
+  "Make Targets",
 }
 ```
-
