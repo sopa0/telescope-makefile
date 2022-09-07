@@ -4,14 +4,21 @@ local conf = require("telescope.config").values
 local action_state = require("telescope.actions.state")
 local actions = require("telescope.actions")
 local Terminal = require("toggleterm.terminal").Terminal
+local config   = require("telescope-makefile.config")
 
 local function get_targets()
-	local handle = io.popen("make -rpn 2>/dev/null | sed -n -e '/^$/ { n ; /^[^ .#][^ ]*:/ { s/:.*$// ; p ; } ; }'")
-    if not handle then
-        return
+    local data
+    for _, make_dir in ipairs(config.makefile_priority) do
+        local handle = io.popen("make -rpn -C " .. make_dir .. " 2>/dev/null | sed -n -e '/^$/ { n ; /^[^ .#][^ ]*:/ { s/:.*$// ; p ; } ; }' 2>/dev/null")
+        if not handle then
+            break
+        end
+        data = handle:read("*a")
+        io.close(handle)
+        if #data ~= 0 then
+            break
+        end
     end
-	local data = handle:read("*a")
-    io.close(handle)
     if #data == 0 then
         return
     end
