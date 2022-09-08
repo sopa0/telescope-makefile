@@ -1,7 +1,7 @@
 # telescope-makefile
 Simple telescope extension to run GNU Make targets in Neovim.
 
-Only tested on GNU/Linux.
+*:+1:Supports GNU/BSD make*
 
 Requires the [akinsho/nvim-toggleterm.lua](https://github.com/akinsho/nvim-toggleterm.lua) plugin for now.
 
