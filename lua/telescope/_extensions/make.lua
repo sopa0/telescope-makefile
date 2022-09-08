@@ -43,12 +43,17 @@ local function get_targets()
     if #data == 0 then
         return
     end
-    return vim.split(string.sub(data, 1, #data - 1), '\n')
+    local targets = {}
+     if  config.default_target then
+        table.insert(targets, config.default_target)
+     end
+    return table.merge(targets, vim.split(string.sub(data, 1, #data - 1), '\n'))
 end
 
 local function run_target(cmd)
+    local target = cmd[1] == config.default_target and "" or cmd[1]
     local run_term = Terminal:new({
-        cmd = "make -C " .. makefile_dir .. " " .. cmd[1],
+        cmd = "make -C " .. makefile_dir .. " " .. target,
         direction = "horizontal",
         close_on_exit = false,
     })
