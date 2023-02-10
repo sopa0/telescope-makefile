@@ -10,16 +10,16 @@ local function get_targets()
     local make = config.make_bin
     local data
     -- Check GNU or BSD version
-    local hndl = io.popen("[[ $(" .. make .. " --version 2>/dev/null) =~ 'GNU' ]] && echo 1 ")
+    local hndl = io.popen(make .. " --version 2>/dev/null")
     if not hndl then
         return
     end
-    local is_bsd = #hndl:read('*a') == 0
+    local is_bsd = hndl:read('*a'):find('GNU') == nil
     for _, make_dir in ipairs(config.makefile_priority) do
         makefile_dir = make_dir
         local bsdcmd = make .. " -d g1 -rn -C " .. make_dir .. [[ 2>&1 1>/dev/null |
                 awk -F, '/^#\*\*\* Input graph:/,/^$/ {
-                    if ($1 ~ "^# "){ 
+                    if ($1 ~ "^# "){
                         if ($3 ~ "[|]") {
                             gsub(/# /, "", $1);
                             print $1
@@ -48,7 +48,7 @@ local function get_targets()
      if  config.default_target then
         table.insert(targets, config.default_target)
      end
-    return table.merge(targets, vim.split(string.sub(data, 1, #data - 1), '\n'))
+    return vim.tbl_extend("force", targets, vim.split(string.sub(data, 1, #data - 1), '\n'))
 end
 
 local function run_target(cmd)
