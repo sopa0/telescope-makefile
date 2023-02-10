@@ -13,7 +13,7 @@ For LunarVim, in your config.lua:
 ```lua
 lvim.plugins = {
   {
-    "ptethng/telescope-makefile",
+    "sopa0/telescope-makefile",
   },
 }
 ```
